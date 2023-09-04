@@ -1,4 +1,4 @@
-![Article Banner](/media/wtf-is-nft-rarity-sniping/article-banner.jpg)
+![Article Banner](media/article-banner.jpg)
 
 I\'m going to assume you know what an NFT is by now and if not I am sure there are countless posts and videos out there explaining them or making fun of them.
 
@@ -56,7 +56,7 @@ However, there\'s no need to reinvent the wheel. One of the most popular rarity 
 
 So the rarity score of an NFT would be the sum of the rarity score for each of its trait values calculated as above. This makes sense and produces pretty good rankings. However, I noticed they did not quite match the ones on the rarity.tools website. One reason for that was that the website also used the number of traits an NFT had as a trait itself and this trait count factored into the rarity calculation. To count the number of traits an NFT has we need to exclude the traits that have a null, undefined or empty string value and only count the ones that are populated.
 
-![Trait count used as an extra trait on rarity.tools](/media/wtf-is-nft-rarity-sniping/trait-count-as-trait.png)
+![Trait count used as an extra trait on rarity.tools](media/trait-count-as-trait.png)
 
 *Trait count used as an extra trait on rarity.tools*
 
@@ -76,7 +76,7 @@ To recap:
 
 For an actual example, let\'s take [this Bored Ape](https://rarity.tools/boredapeyachtclub/view/3953) below. I\'ll just show the calculation for one of the traits but all of them will follow this same pattern.
 
-![Bored Ape Example](/media/wtf-is-nft-rarity-sniping/bored-ape-example.png)
+![Bored Ape Example](media/bored-ape-example.png)
 
 *Bored Ape Example*
 
@@ -84,7 +84,7 @@ For the `Eyes` trait there 407 NFTs with `Crazy eyes` and there are 10K NFTs in 
 
 The Eyes trait has 23 possible values (as we can see from the image below) so the `traitMeanRarity` will be `1/23 = 0.04`.
 
-![All possible values for the Eyes trait](/media/wtf-is-nft-rarity-sniping/all-posible-values-for-eyes-trait.png)
+![All possible values for the Eyes trait](media/all-posible-values-for-eyes-trait.png)
 
 *All possible values for the Eyes trait*
 
@@ -92,11 +92,11 @@ So, the `traitRarityScore` will be `0.04 * 24.57` = `0.98` . To calculate the **
 
 You can see below that, although it\'s nowhere near as fancy, my script produces the same ranks for the Bored Ape Yacht club collection. Well, almost, 8 out 11 are there and I think that\'s pretty good. My script currently doesn\'t account for NFTs that have the exact same score and just ranks them from 1 to 10000 but I don\'t think that would\'ve made a difference in this case.
 
-![Top 11 rarest apes on rarity.tools](/media/wtf-is-nft-rarity-sniping/top-11-on-rarity-tools.png)
+![Top 11 rarest apes on rarity.tools](media/top-11-on-rarity-tools.png)
 
 *Top 11 rarest apes on rarity.tools*
 
-![Top 11 rarest apes on my own script](/media/wtf-is-nft-rarity-sniping/top-11-my-app.png)
+![Top 11 rarest apes on my own script](media/top-11-my-app.png)
 
 *Top 11 rarest apes on my own script*
 
