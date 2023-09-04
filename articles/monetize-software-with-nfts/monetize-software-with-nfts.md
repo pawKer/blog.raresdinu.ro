@@ -1,0 +1,5 @@
+I ran into this question while thinking of ways to monetize some of my NFT related projects and I think I came up with a pretty good solution.
+
+On a high level, it involves creating and selling an NFT on OpenSea which can be bought by the potential users of your application and which will enable them to obtain an activation key.
+
+After they buy the NFT they can use it to verify ownership in a Discord server (created by you) using the CollabLand bot. This bot allows verified owners of an NFT that you configure to be given a specific role. After the user gets the owner role in the Discord you could either manually give them an activation key or if you want the process to be completely automated and not require any intervention you can create a Discord bot that will give out theses activation keys to verified owners only.
