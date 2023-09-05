@@ -29,19 +29,19 @@ If one of these transaction was an NFT mint or purchase, the bot would send an a
 
 ## Screenshots
 
-![Server Config](media/server-config.jpg)
+<img src="media/server-config.jpg" alt="Server Config" width="300"/>
 
 *Example server configuration*
 
-![Command List](media/help.jpg)
+<img src="media/help.jpg" alt="Command List" width="300"/>
 
 *All the possible bot commands*
 
-![Alert Examples](media/alerts.jpg)
+<img src="media/alerts.jpg" alt="Alert Examples" width="300"/>
 
 *Examples of alert messages*
 
-![Tracked Addresses](media/following-addr.jpg)
+<img src="media/following-addr.jpg" alt="Tracked Addresses" width="300"/>
 
 *Example of a list of tracked addresses*
 
@@ -87,7 +87,7 @@ Follow this guide to set up the Fresh Mints bot on your server.
 #### Step 1
 Add the Fresh Mints bot to your server using [this link](https://discord.com/api/oauth2/authorize?client_id=912778050435948614&permissions=277025614912&scope=bot%20applications.commands).
 
-![Add Bot to Server](media/add-bot-to-server.png)
+<img src="media/add-bot-to-server.png" alt="Add Bot to Server" width="300"/>
 
 *Adding the bot to the server*
 
@@ -131,7 +131,7 @@ Just use the `/toggle` command to turn on the alerts on the server.
 #### Info
 You can use the `/info` command to confirm the server settings.
 
-![Server Info Command](media/server-info-cmd.png)
+<img src="media/server-info-cmd.png" alt="Server Info Command" width="300"/>
 
 *Server Info Command*
 
@@ -373,7 +373,7 @@ That is how the command files from above are linked to the actual Discord messag
 ## Embeds
 It's quickly worth mentioning what message embeds are. They're just a way of sending Discord messages with a customizable format.
 
-![Embed message example](media/embed-example.png)
+<img src="media/embed-example.png" alt="Embed message example" width="300"/>
 
 *Embed message example*
 
