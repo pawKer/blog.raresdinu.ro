@@ -1,5 +1,41 @@
 ![Article Banner GIF](media/article-banner-gif.gif)
+# Table of contents
+  * [The Fresh Mints Bot 🍃](#the-fresh-mints-bot)
+  * [Overview](#overview)
+  * [Technical overview](#technical-overview)
+  * [Features ✨](#features)
+  * [Screenshots 📸](#screenshots)
+  * [Server setup](#server-setup)
+    + [Fresh Mints Activation Guide 🔐](#fresh-mints-activation-guide)
+      - [Step 1](#step-1)
+      - [Step 2](#step-2)
+      - [Step 3](#step-3)
+      - [Step 4](#step-4)
+      - [Deactivating an activated server](#deactivating-an-activated-server)
+    + [Fresh Mints Setup Guide 🧰](#fresh-mints-setup-guide)
+      - [Step 1](#step-1-1)
+      - [Step 2](#step-2-1)
+      - [Step 3](#step-3-1)
+      - [Step 4](#step-4-1)
+      - [Step 5](#step-5)
+      - [Info](#info)
+      - [Additional Features](#additional-features)
+  * [Technical implementation 🧑‍💻](#technical-implementation)
+    + [How does a Discord bot work?](#how-does-a-discord-bot-work-)
+    + [Bot commands](#bot-commands)
+    + [Bot events](#bot-events)
+    + [Embeds](#embeds)
+    + [Server config](#server-config)
+    + [Ethereum APIs](#ethereum-apis)
+    + [Caching](#caching)
+    + [Identifying NFT transactions](#identifying-nft-transactions)
+    + [Cron jobs](#cron-jobs)
+    + [Monitoring](#monitoring)
+  * [Monetization 💸](#monetization)
+  * [Template](#template)
+  * [Conclusion](#conclusion)
 
+# The Fresh Mints Bot
 In a previous post I talked about my journey with monetizing a software application by using NFTs. In this post I want to talk about that application. 
 
 In that digital gold-rush of 2021/2022 that lasted for what seemed like a few moments, I was looking for ways to leverage my software skills to gain an advantage on this emerging NFT market. One of the ways I thought of was by creating some sort of script that constantly monitored the Ethereum wallets of known NFT traders / flippers (e.g. GarryVee) and quickly trying to buy the same NFTs they bought in the hopes of turning it into profit.
@@ -137,7 +173,7 @@ You can use the `/info` command to confirm the server settings.
 
 To see a list of all available commands use the `/help` command.
 
-#### Additional Features ✨
+#### Additional Features
 A list of other features of the bot.
 
 **Tags on alerts** - If you want a role to be tagged whenever the bot sends a new alert, use the `/set-alert-role` command. To clear it use the `/clear-alert-role`.
@@ -590,7 +626,7 @@ I could then import these metrics into an instance of Grafana to create some das
 
 I was tracking some metrics such as the number of API calls, number of API errors, number of DB errors, number of servers the bot is in, number of unique addresses tracked.
 
-![Grafana Dashboard for the Bot](media/grafana-dash.png)
+<img src="media/grafana-dash.png" alt="Grafana Dashboard for the Bot" width="500"/>
 
 *The Grafana Dashboard for the Bot*
 
