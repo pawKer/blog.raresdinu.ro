@@ -18,7 +18,7 @@ After I got this implemented, the next step was to figure out a way to make NFTs
 
 Creating the actual NFT was surprisingly straightforward, especially since I didn't need a custom contract. I just created a visually pleasing GIF and uploaded that to OpenSea.
 
-![OpenSea Create New NFT](media/os-create-new.png)
+<img src="media/os-create-new.png" alt="OpenSea Create New NFT" width="400"/>
 
 *OpenSea Create New NFT Form*
 
