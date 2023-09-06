@@ -1,5 +1,7 @@
 ![Article Banner GIF](https://github.com/pawKer/blog.raresdinu.ro/blob/main/articles/03/media/article-banner-gif.gif?raw=true)
 
+------------
+
 In a [previous post](https://blog.raresdinu.ro/monetizing-software-with-nfts/) I talked about my journey with monetizing a software application by using NFTs. In this post I want to talk about that application. 
 
 In that digital gold-rush of 2021/2022 that lasted for what seemed like a few moments, I was looking for ways to leverage my software skills to gain an advantage on this emerging NFT market. One of the ways I thought of was by creating some sort of script that constantly monitored the Ethereum wallets of known NFT traders / flippers (e.g. GarryVee) and quickly trying to buy the same NFTs they bought in the hopes of turning it into profit.
@@ -192,7 +194,7 @@ This made it a lot nicer to code and to make it even better I defined a `Command
 const helpCommand: Command = {
   data: new SlashCommandBuilder()
     .setName("help")
-    .setDescription("Get a list of all the bot&#039;s commands."),
+    .setDescription("Get a list of all the bot's commands."),
   async execute(client, interaction) {
     await interaction.reply({ embeds: [getHelpEmbed()] });
   },
@@ -295,8 +297,7 @@ But how does the correct command get executed?
 ### Bot events
 The way the bot is notified about the messages in a server is through events. Messages are just one type of event called an `Interaction Create Event` but you can have others such as `Guild Create Event` (the bot joins a new server) or `Ready Event` (the bot setup is complete).
 
-<pre><code class="language-ts">
-const readyEvent = {
+<pre><code class="language-ts">const readyEvent = {
   name: "ready",
   once: true,
   async execute(client: DiscordClient) {
@@ -323,8 +324,7 @@ readEvents().then((events) => {
 
 The most interesting event is definitely the `Interaction Create Event`. The input to this event function is an `Interaction` object which has all the details such as the command name, the server on which the interaction was created, the user who created it, etc. Based on this interaction, we can decide if the user has the right permissions and we can call the correct command function.
 
-<pre><code class="language-ts">
-const interactionCreateEvent = {
+<pre><code class="language-ts">const interactionCreateEvent = {
   name: "interactionCreate",
   async execute(interaction: Interaction) {
 
@@ -377,8 +377,7 @@ It's quickly worth mentioning what message embeds are. They're just a way of sen
 *Embed message example*
 
 In code they look like this:
-<pre><code class="language-ts">
-const infoEmbed = new MessageEmbed()
+<pre><code class="language-ts">const infoEmbed = new MessageEmbed()
     .setColor("#7bbb57")
     .setTitle("Config info")
     .setDescription(``These are the current bot settings:``)
@@ -564,8 +563,7 @@ This meant that whenever the bot restarted I could go to the database, get all t
 
 The cron job itself just triggered a function that started the process of checking the lastest transactions for the tracked addresses by getting the data from the Covalent API.
 
-<pre><code class="language-ts">
-const restartAllRunningCrons = async (client: DiscordClient): Promise<void> => {
+<pre><code class="language-ts">const restartAllRunningCrons = async (client: DiscordClient): Promise<void> => {
   const runningCrons: MongoResult[] = await client.db.findAllStartedJobs();
 
   for (const dbData of runningCrons) {
