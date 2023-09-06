@@ -1,42 +1,6 @@
 ![Article Banner GIF](https://github.com/pawKer/blog.raresdinu.ro/blob/main/articles/03/media/article-banner-gif.gif?raw=true)
-# Table of contents
-  * [The Fresh Mints Bot 🍃](#the-fresh-mints-bot)
-  * [Overview](#overview)
-  * [Technical overview](#technical-overview)
-  * [Features ✨](#features)
-  * [Screenshots 📸](#screenshots)
-  * [Server setup](#server-setup)
-    + [Fresh Mints Activation Guide 🔐](#fresh-mints-activation-guide)
-      - [Step 1](#step-1)
-      - [Step 2](#step-2)
-      - [Step 3](#step-3)
-      - [Step 4](#step-4)
-      - [Deactivating an activated server](#deactivating-an-activated-server)
-    + [Fresh Mints Setup Guide 🧰](#fresh-mints-setup-guide)
-      - [Step 1](#step-1-1)
-      - [Step 2](#step-2-1)
-      - [Step 3](#step-3-1)
-      - [Step 4](#step-4-1)
-      - [Step 5](#step-5)
-      - [Info](#info)
-      - [Additional Features](#additional-features)
-  * [Technical implementation 🧑‍💻](#technical-implementation)
-    + [How does a Discord bot work?](#how-does-a-discord-bot-work-)
-    + [Bot commands](#bot-commands)
-    + [Bot events](#bot-events)
-    + [Embeds](#embeds)
-    + [Server config](#server-config)
-    + [Ethereum APIs](#ethereum-apis)
-    + [Caching](#caching)
-    + [Identifying NFT transactions](#identifying-nft-transactions)
-    + [Cron jobs](#cron-jobs)
-    + [Monitoring](#monitoring)
-  * [Monetization 💸](#monetization)
-  * [Template](#template)
-  * [Conclusion](#conclusion)
 
-# The Fresh Mints Bot
-In a previous post I talked about my journey with monetizing a software application by using NFTs. In this post I want to talk about that application. 
+In a [previous post](https://blog.raresdinu.ro/monetizing-software-with-nfts/) I talked about my journey with monetizing a software application by using NFTs. In this post I want to talk about that application. 
 
 In that digital gold-rush of 2021/2022 that lasted for what seemed like a few moments, I was looking for ways to leverage my software skills to gain an advantage on this emerging NFT market. One of the ways I thought of was by creating some sort of script that constantly monitored the Ethereum wallets of known NFT traders / flippers (e.g. GarryVee) and quickly trying to buy the same NFTs they bought in the hopes of turning it into profit.
 
@@ -195,7 +159,7 @@ The permissions the bot has in that server determines what actions the bot can d
 
 To create this process you simply have to create a `Discord Client` and login to the API using the API Key
 
-```
+```ts
 const client: DiscordClient = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES], // These are the permissions that the bot needs on the servers it joins
 }) as DiscordClient;
@@ -205,7 +169,7 @@ client.login(process.env.DISCORD_API_SECRET);
 
 A useful tip is that to configure global variables for your bot you can just add them to this client object as this will be available throughout your operations.
 
-```
+```ts
 client.db = new ServerSettingsRepository();
 client.activationKeysDb = new ActivationKeysRepository();
 client.apiClient = apiClient;
@@ -224,11 +188,11 @@ Not long after, Discord released the concept of *Slash Commands* which meant you
 
 This made it a lot nicer to code and to make it even better I defined a `Command` type for each of my commands that each had the Discord `SlashCommandBuilder` definition (needed to register the command) and an `execute` method that would be the custom logic that runs.
 
-```
+```ts
 const helpCommand: Command = {
   data: new SlashCommandBuilder()
     .setName("help")
-    .setDescription("Get a list of all the bot's commands."),
+    .setDescription("Get a list of all the bot&#039;s commands."),
   async execute(client, interaction) {
     await interaction.reply({ embeds: [getHelpEmbed()] });
   },
@@ -238,7 +202,7 @@ const helpCommand: Command = {
 
 I'm not sure if this process has improved in the meantime but, at that time, to load all of the defined commands from their respective files I had to add a bit of pretty complex logic. However, this meant I could define each command in its own file and separate them in folder for each category.
 
-```
+```ts
 /commands
     |-> 
         /activation
@@ -256,30 +220,29 @@ I'm not sure if this process has improved in the meantime but, at that time, to 
 ...
 ```
 
-```
-const readCommands = async (): Promise<Command[]> => {
+<pre><code class="language-ts">const readCommands = async (): Promise<Command[]> => {
   const commands: Command[] = [];
   let res: string[];
   if (process.env.NODE_ENV === "prod") {
-    res = glob.sync(`**/*.js`, {
-      cwd: `${process.cwd()}/commands/`,
+    res = glob.sync(``**/*.js``, {
+      cwd: ``${process.cwd()}/commands/``,
     });
   } else {
-    res = res = glob.sync(`**/*.ts`, {
-      cwd: `${process.cwd()}/src/commands/`,
+    res = res = glob.sync(``**/*.ts``, {
+      cwd: ``${process.cwd()}/src/commands/``,
     });
   }
 
   for (const file of res) {
     const fileNoExt = file.substring(0, file.length - 3);
 
-    const command: Command = (await import(`../commands/${fileNoExt}`))
+    const command: Command = (await import(``../commands/${fileNoExt}``))
       .default as Command;
     commands.push(command);
   }
   return commands;
 };
-```
+</code></pre>
 
 *Reading commands from files*
 
@@ -287,14 +250,14 @@ After reading them in, you could quite easily send them to the Discord API to be
 
 I wrote the following script to do it:
 
-```
+```ts
 readCommands().then(async (commands) => {
   const deployCmds: string[] = commands.map((cmd) => cmd.data.toJSON());
   await updateCommands(deployCmds);
 });
 ```
 
-```
+```ts
 const rest = new REST({ version: "9" }).setToken(
   process.env.DISCORD_API_SECRET
 );
@@ -317,7 +280,7 @@ const updateCommands = async (commands: string[]): Promise<void> => {
 *Registering commands to the Discord API*
 
 Locally, you need to import all of the commands in a similar way and set them on the client in a map for easy access.
-```
+```ts
 client.commands = new Collection<string, Command>();
 readCommands().then((commands) => {
   commands.forEach((cmd) => {
@@ -332,19 +295,19 @@ But how does the correct command get executed?
 ### Bot events
 The way the bot is notified about the messages in a server is through events. Messages are just one type of event called an `Interaction Create Event` but you can have others such as `Guild Create Event` (the bot joins a new server) or `Ready Event` (the bot setup is complete).
 
-```
+<pre><code class="language-ts">
 const readyEvent = {
   name: "ready",
   once: true,
   async execute(client: DiscordClient) {
-    console.log(`Online as ${client?.user?.tag}`);
+    console.log(``Online as ${client?.user?.tag}``);
   },
 };
-```
+</code></pre>
 
 Similar to commands, you can have events trigger a function when that event is received by the bot. You can have them in their own file just like above, read them in and register them in a similar way. This time it doesn't actually have to be with the Discord API, just on the local bot client.
 
-```
+```ts
 client.events = new Collection<string, DiscordEvent>();
 readEvents().then((events) => {
   events.forEach((ev) => {
@@ -360,7 +323,7 @@ readEvents().then((events) => {
 
 The most interesting event is definitely the `Interaction Create Event`. The input to this event function is an `Interaction` object which has all the details such as the command name, the server on which the interaction was created, the user who created it, etc. Based on this interaction, we can decide if the user has the right permissions and we can call the correct command function.
 
-```
+<pre><code class="language-ts">
 const interactionCreateEvent = {
   name: "interactionCreate",
   async execute(interaction: Interaction) {
@@ -394,7 +357,7 @@ const interactionCreateEvent = {
       // Execute the command handler code
       await command.execute(client, interaction);
     } catch (error) {
-      console.error(`[${guild.id}]`, error);
+      console.error(``[${guild.id}]``, error);
       await interaction.reply({
         content: "There was an error while executing this command!",
         ephemeral: true,
@@ -402,7 +365,7 @@ const interactionCreateEvent = {
     }
   },
 };
-```
+</code></pre>
 
 That is how the command files from above are linked to the actual Discord messages. To summarize, when a user sends a message in a server that the bot is in, that creates an `Interaction Create Event` which contains all the relevant information and that our bot is listening for. When the bot receives the event, based on the interaction information it can decide what command code to execute (or any other custom logic).
 
@@ -414,11 +377,11 @@ It's quickly worth mentioning what message embeds are. They're just a way of sen
 *Embed message example*
 
 In code they look like this:
-```
+<pre><code class="language-ts">
 const infoEmbed = new MessageEmbed()
     .setColor("#7bbb57")
     .setTitle("Config info")
-    .setDescription(`These are the current bot settings:`)
+    .setDescription(``These are the current bot settings:``)
     .addFields(
       {
         name: "Scheduled messages status",
@@ -426,23 +389,23 @@ const infoEmbed = new MessageEmbed()
       },
       {
         name: "Alert channel",
-        value: `<#${alertChannelId}>`,
+        value: ``<#${alertChannelId}>``,
       },
       {
         name: "Info channel",
-        value: infoChannelId ? `<#${infoChannelId}>` : "Not set.",
+        value: infoChannelId ? ``<#${infoChannelId}>`` : "Not set.",
       },
       {
         name: "Schedule",
-        value: `The bot will check the addresses: \`${schedule}\`.`,
+        value: ``The bot will check the addresses: ``${schedule}``.``,
       },
      ...
     )
     .setTimestamp();
-```
+</code></pre>
 
 They can be sent to the server, for example, as a reply to an interaction:
-```
+```ts
 await interaction.reply({embeds: [infoEmbed]});
 ```
 
@@ -453,7 +416,7 @@ Esentially, I stored an object for each server that contained any server specifi
 
 I tried to follow good coding practices by creating a DB repository interface and implementing that in case I needed to swap MongoDB out for some other DB in the future.
 
-```
+```ts
 export interface IServerSettingsRepository {
   find(serverId: string): Promise<MongoResult | null>;
   findAllStartedJobs(): Promise<MongoResult[]>;
@@ -481,7 +444,7 @@ Given that the idea of the bot was you would track NFT influencers it was very l
 
 The cache was just a map stored on the Discord client object like we did above.
 
-```
+```ts
 const requestCache: Collection<string, RequestCacheItem> = new Collection();
 client.requestCache = requestCache;
 ```
@@ -496,7 +459,7 @@ The caching logic then was:
 * Else, we need to **make the API request**
 
 In code that looks roughly like this:
-```
+```ts
 const cacheItem = client.requestCache.get(address);
 if (cacheItem && cacheItem.nextUpdate && Date.now() < cacheItem.nextUpdate) {
     if (data.lastIdRead && data.lastIdRead === cacheItem.id) {
@@ -519,7 +482,7 @@ This was perhaps one of the more challenging parts of this project. Not technica
 
 The Covalent API response was huge (>150K rows for 25 transactions) and contained a lot if information. You could only request the transactions of an address at a time and you got back a list of transactions. Each transaction had a series of log events and this was where the main data was.
 
-```
+```ts
 const collectionName = log_event.sender_name;
 const collectionTicker = log_event.sender_contract_ticker_symbol;
 const collectionAddress = log_event.sender_address;
@@ -527,9 +490,9 @@ const txHash = log_event.tx_hash;
 ```
 
 Each log event then had some information that was decoded from the blockchain transaction such as:
-```
+```ts
 const operation = log_event.decoded.name;
-fromAddr = log_event.decoded.params[0].value;
+const fromAddr = log_event.decoded.params[0].value;
 const toAddr = log_event.decoded.params[1].value;
 const valueName = log_event.decoded.params[2].name;
 const value = log_event.decoded.params[2].value;
@@ -538,7 +501,7 @@ const value = log_event.decoded.params[2].value;
 Depending on the operation (e.g. `Transfer`, `Transfer Single`, etc.) all of these parameters were slighlty different.
 
 This took a lot of trial and error to refine but the final logic that decided whether a transaction should send an alert was:
-```
+```ts
 /*
     Mints
         For wallet:
@@ -601,7 +564,7 @@ This meant that whenever the bot restarted I could go to the database, get all t
 
 The cron job itself just triggered a function that started the process of checking the lastest transactions for the tracked addresses by getting the data from the Covalent API.
 
-```
+<pre><code class="language-ts">
 const restartAllRunningCrons = async (client: DiscordClient): Promise<void> => {
   const runningCrons: MongoResult[] = await client.db.findAllStartedJobs();
 
@@ -615,9 +578,9 @@ const restartAllRunningCrons = async (client: DiscordClient): Promise<void> => {
     scheduledMessage.start();
   }
 
-  console.log(`Restarted ${runningCrons.length} crons.`);
+  console.log(``Restarted ${runningCrons.length} crons.``);
 };
-```
+</code></pre>
 
 ## Monitoring
 On top of the usual logging, I also started a basic Express server along side the bot to expose Prometheus metrics on an endpoint.
@@ -653,7 +616,7 @@ After creating these two bots, I realised they shared a lot of the logic so I wa
 
 It can be found [here](https://github.com/pawKer/discord-bot-typescript-template) and it includes loading commands and events dynamically, a script to deploy commands, a basic implementation of MongoDB, a basic embed + docker, eslint, prettier, typescript configuration.
 
-# Conclusion
+## Conclusion
 I put a lot of time and effort into this little bot and it was a great learning experience. I got to learn about the Discord API, blockchain, MongoDB, caching, access keys and even Blender (for the NFT creation).
 
 Unfortunately my monetization plans didn't turn out as expected but I'm still happy with the knowedlge I gained and hopefully someone will find my experience above useful.

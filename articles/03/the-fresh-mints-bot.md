@@ -1,5 +1,5 @@
 ![Article Banner GIF](media/article-banner-gif.gif)
-# Table of contents
+## Table of contents
   * [The Fresh Mints Bot 🍃](#the-fresh-mints-bot)
   * [Overview](#overview)
   * [Technical overview](#technical-overview)
@@ -36,7 +36,7 @@
   * [Conclusion](#conclusion)
 
 # The Fresh Mints Bot
-In a previous post I talked about my journey with monetizing a software application by using NFTs. In this post I want to talk about that application. 
+In a [previous post](https://blog.raresdinu.ro/monetizing-software-with-nfts/) I talked about my journey with monetizing a software application by using NFTs. In this post I want to talk about that application. 
 
 In that digital gold-rush of 2021/2022 that lasted for what seemed like a few moments, I was looking for ways to leverage my software skills to gain an advantage on this emerging NFT market. One of the ways I thought of was by creating some sort of script that constantly monitored the Ethereum wallets of known NFT traders / flippers (e.g. GarryVee) and quickly trying to buy the same NFTs they bought in the hopes of turning it into profit.
 
@@ -653,7 +653,7 @@ After creating these two bots, I realised they shared a lot of the logic so I wa
 
 It can be found [here](https://github.com/pawKer/discord-bot-typescript-template) and it includes loading commands and events dynamically, a script to deploy commands, a basic implementation of MongoDB, a basic embed + docker, eslint, prettier, typescript configuration.
 
-# Conclusion
+## Conclusion
 I put a lot of time and effort into this little bot and it was a great learning experience. I got to learn about the Discord API, blockchain, MongoDB, caching, access keys and even Blender (for the NFT creation).
 
 Unfortunately my monetization plans didn't turn out as expected but I'm still happy with the knowedlge I gained and hopefully someone will find my experience above useful.
