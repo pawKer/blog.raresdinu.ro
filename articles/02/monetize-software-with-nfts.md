@@ -1,3 +1,5 @@
+![Article Banner](media/article-banner.jpg)
+
 During the surge crypto and NFT popularity in 2021/2022 I set out on a mission to monetize my software project by making use of these emerging technologies.
 
 At a high level the solution I found involved creating and selling an NFT on OpenSea which would give any potential owners the right to generate an access key for my application.
